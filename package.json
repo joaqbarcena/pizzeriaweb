@@ -1,0 +1,17 @@
+{
+  "name": "ordersplatform",
+  "version": "1.0.0",
+  "description": "Plataforma de pedidos de productos",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js --test",
+    "start": "node server.js"
+  },
+  "dependencies" : {
+    "body-parser": "^1.16.0",
+    "express": "^4.8.0",
+    "method-override": "^2.3.7",
+    "morgan": "^1.7.0"
+  },
+  "author": "Joaquin Barcena - Pi Software"
+}
