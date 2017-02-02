@@ -9,14 +9,16 @@ var app             = express();
 
 
 //---- Initializing express ----
-app.use(express.static(__dirname + '/Views/UserView'));
+app.use(express.static(__dirname + '/Views/UserView/build'));
 app.use(methodOverride());
 app.use(bodyParser.json());
 app.use(morgan());
 
 
 app.get('*',function(req,res){
-    res.sendFile('./Views/UserView/index.html');
+    var path = './Views/UserView/build/index.html';
+    console.log('Served By : ' + path);
+    res.sendFile(path);
 });
 
 

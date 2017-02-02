@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pizza De Autore - Pedido</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+
+
+
+
+ 
+ 
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+
+<body ng-app="userOrder" ng-controller="orderController" >
+    <div class="row imgBackground internalPadding">
+        <div class="col s12 m10 l10 offset-m1 offset-l1">
+            <div class="card">
+                <div class="row internalPadding">
+                    <div class="col s12">
+                        <form ng-submit="sendOrder(order)" class="col s12">
+                            <div class="row">
+
+                                <div class="input-field col s12 m12 l4">
+                                     <input id="name" type="text"  ng-model="order.name"/>
+                                     <label for="name" class="black-text">Nombre</label>   
+                                </div>
+
+                                <div class="input-field col s12 m12 l4">
+                                      <input id="address" class="black-text" type="text" ng-model="order.address"/>
+                                      <label for="address" class="black-text">Direccion</label>  
+                                </div>
+
+                                <div class="input-field col s12 m12 l4">
+                                      <input id="telNumber" type="text" ng-model="order.celNumber"/>
+                                      <label for="telNumber" class="black-text">Numero de Telefono</label>  
+                                </div>
+
+                            </div>
+                            <ul class="collection">
+                               <li class="collection-item avatar" ng-repeat="item in items">
+                                   <!--p class="circle black white-text center-text-circle">
+                                           {{ item.quantity }}   
+                                   </p-->
+                                   <i class="circle black white-text roboto-font-thin">
+                                           {{ item.quantity }}   
+                                   </i>
+                                   <span class="title" >
+                                       {{ item.name }}
+                                   </span>
+                                   <p>
+                                       {{ item.description }}
+                                   </p>
+                                   
+                                   <a href="#!" class="secondary-content">
+                                       <i class="material-icons black-text" ng-click="addItem(item,order)">add</i>
+                                       <br/>
+                                       <i class="material-icons black-text" ng-click="removeItem(item,order)">remove</i>
+                                   </a>
+                               </li>                                
+                            </ul>
+                            <br/>
+                            <div class="input-field">
+                                <input id="additional" type="text" ng-model="order.additionalFields.additionalNote"/>
+                                <label for="additional" class="black-text">Departamento ? , tocar el timbre ?</label>
+                            </div>
+                            <br/>
+                            <button class="waves-effect waves-light btn black" type="submit"
+                                ng-disabled="order.name == '' || 
+                                             order.address == '' ||
+                                             order.celNumber == '' ||
+                                             order.items.length == 0"
+                                             >
+                                <i class="material-icons right">send</i>    
+                                Enviar
+                            </button> 
+                            <br/>
+                            <br/>
+                        </form>
+                    </div>
+                </div>    
+            </div>
+        </div>    
+    </div>
+</body>
+</html>
