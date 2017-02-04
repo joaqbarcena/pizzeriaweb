@@ -8,7 +8,9 @@ module.exports = function(grunt){
         uglify : {
             build : {
                 files : {
-                    'Views/UserView/build/js/app.min.js' : ['Views/UserView/js/*.js','!Views/UserView/js/materialize.js']
+                    'Views/UserView/build/js/app.min.js' : ['Views/UserView/js/*.js',
+                                                            '!Views/UserView/js/materialize.js',
+                                                            '!Views/UserView/js/*.min.js']
                 }
             }
         },
@@ -33,25 +35,13 @@ module.exports = function(grunt){
             }
         },
         
-        htmlbuild : {
+        processhtml : {
             dist : {
-                src  : 'Views/UserView/index.html',
-                dest : 'Views/UserView/build/',
-                options :{
-                    scripts :{
-                        appmin         : 'js/app.min.js',
-                        materializemin : 'js/materialize.min.js' 
-                    },
-                    styles : {
-                        cssmin : [
-                            'css/materialize.min.css',
-                            'css/override.min.css'
-                        ]
-                    }   
-                } 
-            }  
+                files : {
+                    'Views/UserView/build/index.html' :['Views/UserView/index.html']
+                }
+            }
         },
-        
         
         watch : {
             
@@ -69,7 +59,7 @@ module.exports = function(grunt){
             },
             html : {
                 files : ['Views/UserView/*.html'],
-                tasks : ['htmlbuild']
+                tasks : ['processhtml']
             }
             
         },
@@ -94,10 +84,10 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-contrib-imagemin'); 
-  grunt.loadNpmTasks('grunt-html-build');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-processhtml');
     
-  grunt.registerTask('default',['uglify','cssmin','imagemin','htmlbuild','nodemon','concurrent']);
+  grunt.registerTask('default',['uglify','cssmin','imagemin','processhtml','nodemon','concurrent']);
 };
 
 

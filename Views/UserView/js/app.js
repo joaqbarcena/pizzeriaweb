@@ -14,6 +14,7 @@ app.controller("orderController", //nombre del controller declarado en ng-contro
                      $scope.order      = orderModel  ;
                      $scope.items      = fromServerItems ;
                      
+                     //--------- functions ---------
                      $scope.sendOrder  = submitOrder ;
                      $scope.addItem    = putItem     ;
                      $scope.removeItem = removeItem  ;
@@ -52,6 +53,8 @@ var putItem = function(item , order){
     }
     
     item.quantity = itemBag.quantity;
+    order.total += item.price;
+    
     
     console.log("The order now : ");
     console.dir(order);
@@ -68,13 +71,16 @@ var removeItem = function(item , order){
         itemBag = order.items[index];
         
         if(result.quantity <= 1){
+            if(result.quantity == 1){ order.total -= item.price; } 
             order.items.splice( index , 1 );
             itemBag.quantity = 0;
         }else{
             itemBag.quantity -= 1;
+            order.total -= item.price;
         }
         
         item.quantity = itemBag.quantity;
+        
         
     }else{
         console.error("El resultado de la busqueda es indefinido !");
@@ -96,6 +102,8 @@ var orderModel =
         name      : "", 
         address   : "",
         celNumber : "",
+        patWith   : 0,
+        total     : 0,
         items : [],
         additionalFields : {
             additionalNote : ""
