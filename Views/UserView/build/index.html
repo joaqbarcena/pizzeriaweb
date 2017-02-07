@@ -104,7 +104,7 @@
                                 ng-disabled="order.name == '' || 
                                              order.address == '' ||
                                              order.celNumber == '' ||
-                                             order.payWith   == '0' ||
+                                             order.payWith < order.total ||
                                              order.items.length == 0"
                                              >
                                 <i class="material-icons right">send</i>    

@@ -53,6 +53,8 @@ var putItem = function(item , order){
     }
     
     item.quantity = itemBag.quantity;
+    item.displayable = (item.quantity > 0)? "displayable" : ""
+    
     order.total += item.price;
     
     
@@ -79,8 +81,8 @@ var removeItem = function(item , order){
             order.total -= item.price;
         }
         
-        item.quantity = itemBag.quantity;
-        
+        item.quantity    = itemBag.quantity;
+        item.displayable = (item.quantity > 0)? "displayable" : ""
         
     }else{
         console.error("El resultado de la busqueda es indefinido !");
@@ -102,7 +104,7 @@ var orderModel =
         name      : "", 
         address   : "",
         celNumber : "",
-        patWith   : 0,
+        payWith   : null,
         total     : 0,
         items : [],
         additionalFields : {
