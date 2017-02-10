@@ -1,7 +1,6 @@
 var models       = require('./models.js');
 var requestModel = models.requestModel;
 
-
 exports.insertRequest = function( req , res , next){
     requestModel.create(
         { request : req.body } ,
@@ -28,7 +27,3 @@ exports.getNotConfirmeds = function( req , res ){
         } 
     });
 };
-
-//Update (confirmed)
-
-//getRequests
