@@ -27,7 +27,7 @@
 
 <body ng-app="adminView" ng-controller="adminController">
   
-  <nav class="nav-extended teal">
+  <nav class="nav-extended black">
     <div class="nav-wrapper">
       <a href="#" class="brand-logo center">Pizza de Autore</a>
     </div>
@@ -60,8 +60,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="order in notconfirmeds">
-                        <td>{{ order.ts }}</td>
+                    <tr ng-repeat="order in notconfirmeds | orderBy:reverse:true ">
+                        <td>{{ order.ts.toString(); }}</td>
                         <td>{{ order.request.name }}</td>
                         <td>{{ order.request.address }}</td>
                         <td>{{ order.request.celNumber }}</td>

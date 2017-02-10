@@ -68,8 +68,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="order in notconfirmeds">
-                        <td>{{ order.ts }}</td>
+                    <tr ng-repeat="order in notconfirmeds | orderBy:reverse:true ">
+                        <td>{{ order.ts.toString(); }}</td>
                         <td>{{ order.request.name }}</td>
                         <td>{{ order.request.address }}</td>
                         <td>{{ order.request.celNumber }}</td>
