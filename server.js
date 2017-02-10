@@ -4,26 +4,47 @@ var express         = require('express');
 var methodOverride  = require('method-override');
 var morgan          = require('morgan');
 var bodyParser      = require('body-parser');
+var router          = require('./server app/router/routes.js');
+var dbController    = require('./server app/db-manager/actionDB.js');
+var event           = require('./server app/events-service/eventManager.js');
+var mongoose        = require('mongoose');
 var port            = process.env.PORT || 8080; 
 var app             = express();
 
+var userViews      = '/Views/UserView/build';
+var adminViews     = '/Views/AdminView/build';
+
+var userViewIndex  = 'index.html';
+var adminViewIndex = 'index.html';
+
+var userPath       = '.' + userViews + '/' + userViewIndex;
+var adminPath      = '.' + adminViews + '/' + adminViewIndex;
+
+var serverPath     = __dirname;
+
+var config = {
+    INDEX_PATH          : userPath ,
+    ADMIN_INDEX_PATH    : adminPath ,
+    DATABASE_CONTROLLER : dbController,
+    SERVER_PATH         : serverPath,
+    EVENT_SERVICE       : event
+}
+
+mongoose.connect('mongodb://127.0.0.1:27017/requestDB');
+
 
 //---- Initializing express ----
-app.use(express.static(__dirname + '/Views/UserView/build'));
+app.use(express.static(__dirname + userViews));
+app.use('/admin',express.static(__dirname + adminViews));
 app.use(methodOverride());
 app.use(bodyParser.json());
 app.use(morgan());
 
-
-app.get('*',function(req,res){
-    var path = './Views/UserView/build/index.html';
-    console.log('Served By : ' + path);
-    res.sendFile(path);
-});
+router( config , app); //Carga las rutas
 
 
 app.listen(port);
-
+ 
 console.log("The server is running and ready by port : " + port);
 
 

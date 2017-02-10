@@ -10,7 +10,11 @@ module.exports = function(grunt){
                 files : {
                     'Views/UserView/build/js/app.min.js' : ['Views/UserView/js/*.js',
                                                             '!Views/UserView/js/materialize.js',
-                                                            '!Views/UserView/js/*.min.js']
+                                                            '!Views/UserView/js/*.min.js'],
+                    
+                    'Views/AdminView/build/js/app.min.js' : ['Views/AdminView/js/*.js',
+                                                            '!Views/AdminView/js/materialize.js',
+                                                            '!Views/AdminView/js/*.min.js']
                 }
             }
         },
@@ -18,7 +22,8 @@ module.exports = function(grunt){
         cssmin : {
             build : {
                 files : {
-                    'Views/UserView/build/css/override.min.css' : ['Views/UserView/css/*.css','!Views/UserView/css/materialize.css']
+                    'Views/UserView/build/css/override.min.css' : ['Views/UserView/css/*.css','!Views/UserView/css/materialize.css'],
+                    'Views/AdminView/build/css/override.min.css' : ['Views/AdminView/css/*.css','!Views/AdminView/css/materialize.css']
                 }
             }
         },
@@ -38,7 +43,8 @@ module.exports = function(grunt){
         processhtml : {
             dist : {
                 files : {
-                    'Views/UserView/build/index.html' :['Views/UserView/index.html']
+                    'Views/UserView/build/index.html' :['Views/UserView/index.html'],
+                    'Views/AdminView/build/index.html' :['Views/AdminView/index.html']
                 }
             }
         },

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pizza de Autore - Administrador</title>
+    
+    <!--script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script-->
+
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+
+
+    <script src="/admin/js/app.min.js"></script>
+
+    <script src="/admin/js/materialize.min.js"></script>
+
+
+    <!--link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"-->
+
+    <link href="/admin/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+    <link href="/admin/css/override.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body ng-app="adminView" ng-controller="adminController">
+  
+  <nav class="nav-extended teal">
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo center">Pizza de Autore</a>
+    </div>
+    <div class="nav-content">
+      <ul class="tabs tabs-transparent tabs-fixed-width">
+        <li class="tab">
+            <a href="#t1">Confirmados</a>
+        </li>
+        <li class="tab">
+            <a class="active" href="#t2">Sin Confirmar</a>
+        </li>
+      </ul>
+        <!--div id="t1" class="col s12">Test 1</div>
+        <div id="t2" class="col s12">Test 2</div-->
+    </div>
+  </nav>
+  
+   <div class="row">
+       <div class="card col s10 offset-s1">
+           <table class="highlight stripped">
+                <thead>
+                  <tr>
+                      <th data-field="id">Fecha de pedido</th>
+                      <th data-field="name">Nombre</th>
+                      <th data-field="address">Direccion</th>
+                      <th data-field="telephone">Telefono</th>
+                      <th data-field="price">Total</th>
+                      <th data-field="price">Pago</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="order in notconfirmeds">
+                        <td>{{ order.ts }}</td>
+                        <td>{{ order.request.name }}</td>
+                        <td>{{ order.request.address }}</td>
+                        <td>{{ order.request.celNumber }}</td>
+                        <td>{{ order.request.total }}</td>
+                        <td>{{ order.request.payWith }}</td>
+                    </tr>
+                </tbody>
+            </table>
+       </div>
+   </div>
+</body>
+</html>

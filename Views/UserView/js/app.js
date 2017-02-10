@@ -5,40 +5,65 @@ console.log("The app is initializing ... ");
 //add a Controller to app
 
 app.controller("orderController", //nombre del controller declarado en ng-controller
-               [ '$scope' ,  // Pide los objetos que necesita como parametros en la funcion contigua
-                 function($scope){
+               [ '$scope', '$http' ,  // Pide los objetos que necesita como parametros en la funcion contigua
+                 function($scope , $http){
                      
                      //-------- init items --------
-                     addQuantityField(fromServerItems);
+                     setQuantityField(fromServerItems);
                      
                      $scope.order      = orderModel  ;
-                     $scope.items      = fromServerItems ;
+                     $scope.products   = fromServerItems ;
                      
                      //--------- functions ---------
-                     $scope.sendOrder  = submitOrder ;
                      $scope.addItem    = putItem     ;
                      $scope.removeItem = removeItem  ;
+                     
+                     $scope.sendOrder  = function(){
+                         console.log("The order will send with data : ");
+                         Toast('Su orden esta siendo enviada');
+                         $http.post( '/sendOrder', $scope.order )
+                                    .then(responseCallback,errorCallback)
+                                    .then(function(res){
+                                            if(res.data.isOk === true) clear($scope);
+                         });                         
+                     }
                  }
                ]
 );
 
                      
-var submitOrder = function(order){
-    //send AJAX to server with the order
-    console.log("The order will send with data : ");
-    console.dir(order);
+var responseCallback = function(res){
+    
+    if(res.data.isOk === false){
+        errorCallback(res);
+        return;
+    }
+    
+    Toast('Listo ! espere la confirmacion');
+    console.dir(res);
+    
+    return res;
 };
 
-
-var putItem = function(item , order){
+var errorCallback    = function(res){
+    Toast('Hubo un error al tratar de enviar :(');
+    console.log("Was an error !!!!!");
+    console.dir(res);
     
-    var result = findByName(item.name , order);
-    var itemBag;
+    return res;
+}
+
+
+//---------------------------------------- Chart functions -------------------------------------
+
+var putItem = function(product , order){
+    
+    var result = findByName(product.name , order);
     
     if( result === undefined){
         
         itemBag = {
-            "name"     : item.name,
+            "name"     : product.name,
             "quantity" : 1
         };
         
@@ -52,10 +77,10 @@ var putItem = function(item , order){
     
     }
     
-    item.quantity = itemBag.quantity;
-    item.displayable = (item.quantity > 0)? "displayable" : ""
+    product.quantity = itemBag.quantity;
+    product.displayable = (product.quantity > 0)? "displayable" : "";
     
-    order.total += item.price;
+    order.total += product.price;
     
     
     console.log("The order now : ");
@@ -63,26 +88,32 @@ var putItem = function(item , order){
 
 };
 
-var removeItem = function(item , order){
+var removeItem = function(product , order){
     
-    var result = findByName(item.name , order);
-    var itemBag;
+    var result = findByName(product.name , order);
     
     if( result !== undefined){
+        
         var index = order.items.indexOf(result);
         itemBag = order.items[index];
         
         if(result.quantity <= 1){
-            if(result.quantity == 1){ order.total -= item.price; } 
+            
+            if(result.quantity == 1){ 
+                order.total -= product.price; 
+            } 
             order.items.splice( index , 1 );
             itemBag.quantity = 0;
-        }else{
+        
+        } else {
+            
             itemBag.quantity -= 1;
-            order.total -= item.price;
+            order.total -= product.price;
+        
         }
         
-        item.quantity    = itemBag.quantity;
-        item.displayable = (item.quantity > 0)? "displayable" : ""
+        product.quantity    = itemBag.quantity;
+        product.displayable = (product.quantity > 0)? "displayable" : ""
         
     }else{
         console.error("El resultado de la busqueda es indefinido !");
@@ -97,10 +128,49 @@ var findByName = function(name , order){
         return itemObject.name === name;
     });
 };
+
+
                      
+var orderModel =  { 
+        name      : "", 
+        address   : "",
+        celNumber : "",
+        payWith   : null,
+        total     : 0,
+        items : [],
+        additionalFields : {
+            additionalNote : ""
+        }
+};
+
+var itemBag = {
+        "name"     : "",
+        "quantity" : 0
+};
+
                      
-var orderModel =  
-    { 
+
+//------------------------------------------ init ---------------------------------------
+
+function setQuantityField(items){
+    items.forEach(function(item){
+        item.displayable = "";
+        item.quantity = 0;
+    });
+};
+
+
+//------------------------------------------ Toast ----------------------------------------
+
+function Toast(msg){
+    Materialize.toast(msg, 3000);    
+}
+
+//------------------------------------------ Clear -----------------------------------------
+
+function clear(scope){
+    setQuantityField(scope.products);  
+    scope.order = { 
         name      : "", 
         address   : "",
         celNumber : "",
@@ -111,13 +181,10 @@ var orderModel =
             additionalNote : ""
         }
     };
-                     
+}
 
-//------------------------------------------ init ---------------------------------------
+//------------------------------------------ Copy -------------------------------------------
 
-function addQuantityField(items){
-    items.forEach(function(item){
-        item.quantity = 0;
-    });
-};
-
+function makeCopy(cop){
+    return $.extend( {}, cop );
+}
