@@ -11,6 +11,7 @@ var mongoose        = require('mongoose');
 var port            = process.env.PORT || 8080; 
 var app             = express();
 var mongoURL        =  null;
+var force           = true;
 
 var userViews      = '/Views/UserView/build';
 var adminViews     = '/Views/AdminView/build';
@@ -51,6 +52,8 @@ if (process.env.DATABASE_SERVICE_NAME) {
   
     mongoose.connect(mongoURL);
 
+}else if(force){
+    mongoose.connect('mongodb://mongoaccount:mongouser@172.31.8.204:27017/requestdb');
 }else{
     mongoose.connect('mongodb://127.0.0.1:27017/requestDB');
 }
