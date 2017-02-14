@@ -9,6 +9,10 @@ app.factory('OrderService',['$http' , function($http){
     var source = new EventSource('/admin/event');
     var getNotConfirmeds = [];
      
+    var sendToConfirm = function(order){
+        //$http.post('/admin/:id', order.id);
+    };
+    
     return{
         
         NotConfirmeds : function(callbacka){
@@ -22,14 +26,16 @@ app.factory('OrderService',['$http' , function($http){
         
         getOrders : function(callback){
                 source.addEventListener('message', callback , false);
-        }  
+        },
+        
+        confirm   : sendToConfirm
     };
     
 }]);
 
 app.controller("adminController", //nombre del controller declarado en ng-controller
-               [ '$scope', 'OrderService', // Pide los objetos que necesita como parametros en la funcion contigua
-                 function($scope , OrderService){
+               [ '$scope' , 'OrderService', // Pide los objetos que necesita como parametros en la funcion contigua
+                 function($scope ,OrderService){
                     $scope.orders        = [];
                     $scope.notconfirmeds = [];
                     $scope.notconfirmeds = OrderService.NotConfirmeds(function(response){
@@ -46,10 +52,21 @@ app.controller("adminController", //nombre del controller declarado en ng-contro
                                                     console.dir(msg.data);
                                                 }
                                             );
+                     
+                    $scope.fireConfirmer = showConfirmator;
+                     
+                    $scope.confirm       =  function(order){
+                                                    $('#confirmator').modal('close');
+                                                    Toast("El pedido esta siendo confirmado ...");
+                                                    OrderService.confirm(order);
+                                            };
                  }
                ]
 );
 
+var showConfirmator = function(order){
+    $('#confirmator').modal('open');
+};
 
 
 //--------------------------------------- Models --------------------------------------------
@@ -77,3 +94,8 @@ var itemBag = {
 function Toast(msg){
     Materialize.toast(msg, 3000);    
 }
+
+
+$(document).ready(function(){
+    $('.modal').modal();
+});

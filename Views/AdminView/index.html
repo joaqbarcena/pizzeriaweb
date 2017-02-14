@@ -68,7 +68,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="order in notconfirmeds | orderBy:reverse:true ">
+                    <tr ng-repeat="order in notconfirmeds | orderBy:reverse:true " ng-click="fireConfirmer(order)">
                         <td>{{ order.ts.toString(); }}</td>
                         <td>{{ order.request.name }}</td>
                         <td>{{ order.request.address }}</td>
@@ -80,5 +80,16 @@
             </table>
        </div>
    </div>
+   
+  <!-- Modal Structure -->
+  <div id="confirmator" class="modal">
+    <div class="modal-content">
+      <p> TODO : Insertar los datos del pedido como el admin P-YA</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Confirmar !</a>
+    </div>
+  </div>
+  
 </body>
 </html>
